@@ -7,25 +7,28 @@ import {
   Stack,
   Heading,
   FormHelperText,
+  useToast,
   Flex,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 
-import { registerUser } from "../../redux/reduxSlices/auth";
-import { clearMessage } from "../../redux/reduxSlices/message";
+// import { login } from "../../redux/reduxSlices/auth";
+import { clearMessage } from "../../../redux/reduxSlices/message";
 
-function SignUpForm() {
+function SignINForm() {
   const message = useSelector((mystate) => mystate.message.value);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
   const {
     register,
     reset,
@@ -33,21 +36,53 @@ function SignUpForm() {
     formState: { errors },
   } = useForm();
 
+  const showToast = () => {
+    toast({
+      position: "top",
+      title: "Logged In Successfully..",
+      status: "success",
+      duration: 2500,
+      isClosable: true,
+    });
+  };
+
   const onSubmit = handleSubmit(async (mydata, e) => {
     e?.preventDefault();
     setLoading(true);
+    setLoading(false);
+    reset();
+    showToast();
+    navigate("/home");
+  });
+
+  /* 
+    const onSubmit = handleSubmit(async (mydata, e) => {
+    e?.preventDefault();
+    setLoading(true);
+
     // eslint-disable-next-line prefer-destructuring
     const username = mydata.username;
     // eslint-disable-next-line prefer-destructuring
     const password = mydata.password;
 
-    dispatch(registerUser(username, password));
-    reset();
-    setLoading(false);
+    dispatch(login(username, password))
+      .unwrap()
+      .then(() => {
+        setLoading(false);
+        reset();
+        showToast();
+        navigate("/home");
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   });
+  
+  */
 
   return (
-    <Flex mt="-50px" minH="100vh" align="center" justify="center">
+    <Flex minH="100vh" align="center" justify="center">
       <Stack
         bg="gray.200"
         rounded={6}
@@ -55,22 +90,19 @@ function SignUpForm() {
         w="90%"
         maxW="sm"
         boxShadow="lg"
-        mt={{ base: "20%", md: "9%" }}
-        pb={{ base: "2%", md: "3%" }}
-        pt={{ base: "1%", md: "2%" }}
-        p={{ base: "2", md: "4" }}
+        p={6}
         my={12}
       >
         <form onSubmit={onSubmit}>
           <Heading
             color="orange.400"
+            fontSize={{ base: "3xl", md: "4xl" }}
+            pt={{ base: "1%", md: "0%" }}
             textAlign="center"
             fontFamily="sans-serif"
             fontWeight="bold"
-            fontSize={{ base: "3xl", md: "4xl" }}
-            pt={{ base: "1%", md: "1%" }}
           >
-            Register
+            Login
           </Heading>
           <FormControl>
             <FormHelperText
@@ -110,24 +142,25 @@ function SignUpForm() {
               {errors.password?.type === "required" && "Password is required"}
             </FormHelperText>
           </FormControl>
-          <FormControl>
+          <FormControl textAlign="center" pb={{ base: "4.6%", md: "4.5%" }}>
             <Button
               size={{ base: "md", md: "md" }}
               w="full"
               mt="5%"
               colorScheme="white"
+              id="submitBtn"
               color="white"
               type="submit"
               bg="orange.400"
               _hover={{ bg: "teal", color: "white" }}
               variant="ghost"
               isLoading={loading}
-              loadingText="Creating Account"
+              loadingText="Logging In"
             >
-              Register
+              Login
             </Button>
 
-            <Link to="/login">
+            <Link id="SignUp" to="/register">
               <Button
                 size={{ base: "md", md: "md" }}
                 w="full"
@@ -137,9 +170,8 @@ function SignUpForm() {
                 bg="#CBD5E0"
                 _hover={{ bg: "#CBD5E0", color: "#FF5F0F" }}
                 variant="ghost"
-                type="submit"
               >
-                Login
+                Register
               </Button>
             </Link>
           </FormControl>
@@ -148,4 +180,4 @@ function SignUpForm() {
     </Flex>
   );
 }
-export default SignUpForm;
+export default SignINForm;

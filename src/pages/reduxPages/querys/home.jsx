@@ -1,12 +1,15 @@
 /* eslint-disable no-nested-ternary */
 import { Stack, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useGetFilmsQuery } from "../../redux/reduxSlices/apiSlice";
+import { useGetFilmsQuery } from "../../../redux/reduxSlices/apiSlice";
 
 function Home() {
   const navigate = useNavigate();
   const logOut = () => {
     navigate("/login");
+  };
+  const newMovies = () => {
+    navigate("/newmovies");
   };
 
   const responseFromQuery = useGetFilmsQuery();
@@ -33,6 +36,9 @@ function Home() {
       >
         Log Out
       </Button>
+      <Stack>
+        <Button onClick={newMovies}>Add New movies</Button>
+      </Stack>
       <Stack justify="center" justifyContent="center">
         <Text>Star Wars Movies</Text>
         {error ? (
@@ -42,10 +48,10 @@ function Home() {
         ) : data ? (
           <Stack>
             {data.results.map((movie) => (
-              <section item key={movie.episode_id} xs={4}>
+              <Stack key={movie.episode_id}>
                 <h2>{movie.title}</h2>
                 <p>{movie.opening_crawl}</p>
-              </section>
+              </Stack>
             ))}
           </Stack>
         ) : null}

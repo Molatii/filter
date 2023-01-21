@@ -1,10 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import { Stack, Text } from "@chakra-ui/react";
-import { useGetFilmByIdQuery } from "../../redux/reduxSlices/apiSlice";
+import { useGetFilmByIdQuery } from "../../../redux/reduxSlices/apiSlice";
 
 function QueryById() {
-  const responseFromQueryById = useGetFilmByIdQuery("4");
-  const { data, isLoading, error } = responseFromQueryById;
+  const movieId = "4";
+  const responseFromQueryById = useGetFilmByIdQuery(movieId);
+  const { data: singleProduct, isLoading, error } = responseFromQueryById;
 
   return (
     <Stack>
@@ -13,9 +14,9 @@ function QueryById() {
         <>Oh no, there was an error</>
       ) : isLoading ? (
         <>Loading...</>
-      ) : data ? (
+      ) : singleProduct ? (
         <Stack>
-          {data.results.map((movie) => (
+          {singleProduct.results.map((movie) => (
             <section item key={movie.episode_id} xs={4}>
               <h2>{movie.title}</h2>
               <p>{movie.opening_crawl}</p>

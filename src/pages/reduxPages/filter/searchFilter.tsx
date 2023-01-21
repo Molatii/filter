@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearFilterState,
   setFilterItem,
-} from "../../redux/reduxSlices/filterSlice";
-import { RootState } from "../../redux/store";
+} from "../../../redux/reduxSlices/filterSlice";
+import { RootState } from "../../../redux/store";
 
 function Search() {
   const dispatch = useDispatch();

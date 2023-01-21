@@ -1,6 +1,6 @@
 import { Stack, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
+import type { RootState } from "../../../redux/store";
 
 function Calcullate() {
   const count = useSelector((mystate: RootState) => mystate.count.value);

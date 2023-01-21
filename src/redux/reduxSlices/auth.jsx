@@ -59,32 +59,31 @@ const initialState = user
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  extraReducers: {
-    [registerUser.fulfilled]: (state) => {
+  reducers: {
+    registerUserSuccess: (state) => {
       const mystate = state;
       mystate.isLoggedIn = false;
     },
-    [registerUser.rejected]: (state) => {
+    registerUserError: (state) => {
       const mystate = state;
       mystate.isLoggedIn = false;
     },
-    [login.fulfilled]: (state, action) => {
+    loginSuccess: (state, action) => {
       const mystate = state;
-      mystate.isLoggedInte.isLoggedIn = true;
+      mystate.isLoggedIn = true;
       mystate.user = action.payload.user;
     },
-    [login.rejected]: (state) => {
+    loginError: (state) => {
       const mystate = state;
       mystate.isLoggedIn = false;
       mystate.user = null;
     },
-    [logout.fulfilled]: (state) => {
+    logoutSuccess: (state) => {
       const mystate = state;
       mystate.isLoggedIn = false;
       mystate.user = null;
     },
   },
 });
-
 const { reducer } = authSlice;
 export default reducer;

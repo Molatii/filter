@@ -4,7 +4,7 @@ import {
   decrement,
   increment,
   setCount,
-} from "../../redux/reduxSlices/countSlice";
+} from "../../../redux/reduxSlices/countSlice";
 
 function Input() {
   const dispatch = useDispatch();
